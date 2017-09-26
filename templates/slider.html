@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<!-- code is from here:https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_js_rangeslider -->
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+<title>Comédie-Français Theater in Paris Prototype</title>
+</head>
+<style>
+body {
+    font-family: 'Roboto Slab', serif;
+}
+#slidecontainer {
+    width: 100%;
+}
+
+#container {
+    margin-top:150px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 40px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    background: #e02121;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 40px;
+    height: 40px;
+    background: #e02121;
+    cursor: pointer;
+}
+</style>
+<body>
+<div id="container">
+<img style="display: block;margin: auto;" src="https://www.institut-francais.org.uk/wp-content/uploads/2016/11/comedie-francaise-logo.jpg">
+<h1 style="text-align:center;">Comédie-Français Theater in Paris</h1>
+<p style="text-align:center;font-size: 24px;">Drag the slider to look at average ticket sales per year.</p>
+<p style="text-align:center;font-size: 28px;"><b>Year:</b> <span id="year"></span></p>
+<div id="slidecontainer">
+  <input type="range" min="1680" max="1793" value="1680" class="slider" id="years">
+  <p style="text-align:center;font-size: 20px;"> <span id="info"></span></p>
+</div>
+</div>
+
+<script>
+var data = {{ data|tojson|safe }}
+var slider = document.getElementById("years");
+var output = document.getElementById("info");
+var year = document.getElementById("year");
+year.innerHTML = slider.value;
+output.innerHTML = "<b>Average # of Ticket Sales:</b> " + Math.trunc(data[slider.value]['sales']) + " <br /><b>Most Popular Play:</b> " + data[slider.value]['title'] + " <br /><b>Most Popular Author:</b> " + data[slider.value]['author'] + " <br /><b>Most Popular Genre:</b> " + data[slider.value]['genre'];
+
+slider.oninput = function() {
+  year.innerHTML = this.value;
+  output.innerHTML = "<b>Average # of Ticket Sales:</b> " + Math.trunc(data[slider.value]['sales']) + " <br /><b>Most Popular Play:</b> " + data[slider.value]['title'] + " <br /><b>Most Popular Author:</b> " + data[slider.value]['author'] + " <br /><b>Most Popular Genre:</b> " + data[slider.value]['genre'];
+
+}
+</script>
+
+</body>
+</html>
